@@ -20,7 +20,7 @@ jobs:
       - name: Run get_pp.py
         run: |
           pip install -r requirements.txt
-          python3 ./get_pp.py'
+          python3 ./get_pp.py
       
       - name: Commit and push
         run: |
