@@ -32,7 +32,7 @@ def get_pp_info():
     date = datetime.today().strftime('%Y-%m-%d')
 
     df = pd.read_csv("pp_data.csv")
-    if df["Date"].iloc[-1] == date:
+    if len(df.index) > 0 and df["Date"].iloc[-1] == date:
         return False
 
     result = [date]
