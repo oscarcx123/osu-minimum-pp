@@ -112,6 +112,5 @@ def generate_chart():
 
     logging.info("generate_chart done!")
 
-res = get_pp_info()
-if res:
-    generate_chart()
+get_pp_info()
+generate_chart()
