@@ -37,6 +37,8 @@ def get_pp_info():
         logging.info(f"Getting pp for {mode_name[i]}")
         payload = {"t": "rank", "v": "9999", "m": str(i)}
         r = requests.get(url=url, params=payload, headers=headers)
+        if r.status_code != 200:
+            raise requests.exceptions.HTTPError("The response code is not 200. Something's wrong!")
         result.append(r.text)
 
     res_str = ",".join(result)
