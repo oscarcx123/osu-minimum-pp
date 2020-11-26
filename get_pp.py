@@ -29,7 +29,13 @@ def get_pp_info():
 
     url = "https://osudaily.net/data/getPPRank.php"
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
-    result = [datetime.today().strftime('%Y-%m-%d')]
+    date = datetime.today().strftime('%Y-%m-%d')
+
+    df = pd.read_csv("pp_data.csv")
+    if df["Date"].iloc[-1] == date:
+        return False
+
+    result = [date]
 
 
     for i in range(0, 4):
@@ -48,6 +54,7 @@ def get_pp_info():
         f.write(res_str)
     
     logging.info("get_pp_info done!")
+    return True
 
 def generate_chart():
     logging.info("Generating interactive chart...")
@@ -105,5 +112,6 @@ def generate_chart():
 
     logging.info("generate_chart done!")
 
-get_pp_info()
-generate_chart()
+res = get_pp_info()
+if res:
+    generate_chart()
