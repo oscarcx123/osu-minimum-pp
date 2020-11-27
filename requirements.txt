@@ -1,3 +1,5 @@
 requests
 plotly
 pandas
+beautifulsoup4
+lxml

@@ -2,6 +2,7 @@ import time
 import random
 import requests
 import logging
+from bs4 import BeautifulSoup
 from datetime import datetime
 import plotly.graph_objects as go
 import pandas as pd
@@ -23,11 +24,10 @@ def line_prepender(filename, line):
         f.seek(0, 0)
         f.write(line.rstrip('\r\n') + '\n' + content)
 
-# get pp information from https://osudaily.net/ppbrowser.php
+# get pp information 
 def get_pp_info():
-    mode_name = ["Standard", "Taiko", "CtB", "Mania"]
+    mode_name = ["osu", "taiko", "fruits", "mania"]
 
-    url = "https://osudaily.net/data/getPPRank.php"
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
     date = datetime.today().strftime('%Y-%m-%d')
 
@@ -41,11 +41,15 @@ def get_pp_info():
     for i in range(0, 4):
         random_sleep()
         logging.info(f"Getting pp for {mode_name[i]}")
-        payload = {"t": "rank", "v": "9999", "m": str(i)}
+        url = f"https://osu.ppy.sh/rankings/{mode_name[i]}/performance"
+        payload = {"page": "200"}
         r = requests.get(url=url, params=payload, headers=headers)
         if r.status_code != 200:
             raise requests.exceptions.HTTPError("The response code is not 200. Something's wrong!")
-        result.append(r.text)
+        webdata = r.text
+        soup = BeautifulSoup(webdata,"lxml")
+        pp = soup.find_all("td", class_ = "ranking-page-table__column")[-4].text.replace(" ", "").replace("\n", "").replace(",", "")
+        result.append(pp)
 
     res_str = ",".join(result)
 
