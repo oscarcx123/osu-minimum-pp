@@ -49,6 +49,7 @@ def get_pp_info():
         webdata = r.text
         soup = BeautifulSoup(webdata,"lxml")
         pp = soup.find_all("td", class_ = "ranking-page-table__column")[-4].text.replace(" ", "").replace("\n", "").replace(",", "")
+        logging.info(f"pp = {pp}")
         result.append(pp)
 
     res_str = ",".join(result)
