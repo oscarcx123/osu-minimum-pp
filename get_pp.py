@@ -13,7 +13,7 @@ logging.basicConfig(
     datefmt = '%Y-%m-%dT%H:%M:%S')
 
 def random_sleep():
-    seconds = random.randint(1, 2)
+    seconds = random.randint(1, 3)
     logging.info(f"[Info] Sleep for {seconds}s")
     time.sleep(seconds)
 
@@ -40,9 +40,23 @@ def get_pp_info():
 
     for i in range(0, 4):
         random_sleep()
-        logging.info(f"Getting pp for {mode_name[i]}")
+        logging.info(f"Getting pp for {mode_name[i]} #9,999")
         url = f"https://osu.ppy.sh/rankings/{mode_name[i]}/performance"
         payload = {"page": "200"}
+        r = requests.get(url=url, params=payload, headers=headers)
+        if r.status_code != 200:
+            raise requests.exceptions.HTTPError("The response code is not 200. Something's wrong!")
+        webdata = r.text
+        soup = BeautifulSoup(webdata,"lxml")
+        pp = soup.find_all("td", class_ = "ranking-page-table__column")[-4].text.replace(" ", "").replace("\n", "").replace(",", "")
+        logging.info(f"pp = {pp}")
+        result.append(pp)
+
+    for i in range(0, 4):
+        random_sleep()
+        logging.info(f"Getting pp for {mode_name[i]} #999")
+        url = f"https://osu.ppy.sh/rankings/{mode_name[i]}/performance"
+        payload = {"page": "20"}
         r = requests.get(url=url, params=payload, headers=headers)
         if r.status_code != 200:
             raise requests.exceptions.HTTPError("The response code is not 200. Something's wrong!")
@@ -70,13 +84,17 @@ def generate_chart():
 
     # Create figure
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard), name="Standard"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko), name="Taiko"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB), name="CtB"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania), name="Mania"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard4), name="Standard4", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko4), name="Taiko4", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB4), name="CtB4", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania4), name="Mania4"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard3), name="Standard3", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko3), name="Taiko3", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB3), name="CtB3", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania3), name="Mania3", visible="legendonly"))
 
     # Set title
-    fig.update_layout(title_text="osu! 4-digit rank minimum pp requirement")
+    fig.update_layout(title_text="osu! 4&3-digit rank minimum pp requirement")
 
     # Add range slider
     # https://plotly.com/python/range-slider/
