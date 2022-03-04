@@ -10,4 +10,5 @@ osu! 4-digit rank minimum pp requirement for all modes, with an interative chart
 ## Error Log
 
 2021.05.16 - No data
+
 2022.02.27 - taiko #9,999 abnormal result (3,015pp)
