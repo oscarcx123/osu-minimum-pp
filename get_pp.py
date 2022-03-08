@@ -84,14 +84,14 @@ def generate_chart():
 
     # Create figure
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard4), name="Standard4", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko4), name="Taiko4", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB4), name="CtB4", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania4), name="Mania4"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard3), name="Standard3", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko3), name="Taiko3", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB3), name="CtB3", visible="legendonly"))
-    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania3), name="Mania3", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard4), name="Standard4", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko4), name="Taiko4", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB4), name="CtB4", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania4), name="Mania4", tickformat = "digits"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Standard3), name="Standard3", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Taiko3), name="Taiko3", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.CtB3), name="CtB3", tickformat = "digits", visible="legendonly"))
+    fig.add_trace(go.Scatter(x=list(df.Date), y=list(df.Mania3), name="Mania3", tickformat = "digits", visible="legendonly"))
 
     # Set title
     fig.update_layout(title_text="osu! 4&3-digit rank minimum pp requirement")
